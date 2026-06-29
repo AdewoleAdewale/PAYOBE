@@ -21,8 +21,9 @@ namespace PAYYOBE
             MainPage = new MainPage();
         }
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
+            await OfficerSessionManager.CheckAndRouteSessionAsync();
         }
 
         protected override void OnSleep()
