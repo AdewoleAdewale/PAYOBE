@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Newtonsoft.Json;
 using PAYYOBE.Services;
+using PAYYOBE.Views;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -27,6 +28,7 @@ namespace PAYYOBE
         public static string OfficerCode { get; set; }
         public static string OfficerEmail { get; set; }
         public static string OfficerPhone { get; set; }
+        public static string OfficerPassword { get; set; }
 
         private bool _isLoading = false;
         private bool _passwordVisible = false;
@@ -272,19 +274,23 @@ namespace PAYYOBE
                                 OfficerCode = result.officerCode;
                                 OfficerEmail = result.officerEmail;
                                 OfficerPhone = result.officerPhone;
+                                OfficerPassword = Password.Text;
 
                                 // Encrypted Hardware persistence
                                 await SecureStorage.SetAsync("OfficerId", result.officerId.ToString());
                                 await SecureStorage.SetAsync("OfficerName", result.officerName ?? "");
                                 await SecureStorage.SetAsync("OfficerCode", result.officerCode ?? "");
                                 await SecureStorage.SetAsync("OfficerEmail", result.officerEmail ?? "");
+                                await SecureStorage.SetAsync("OfficerPassword", Password.Text);
                                 await OfficerSessionManager.SaveSessionAsync(
                                     result.officerId,
                                     result.officerName,
                                     result.officerCode,
                                     result.officerEmail,
-                                    result.officerPhone
+                                    result.officerPhone,
+                                    result.OfficerPassword
                                 );
+                               
                                 UserDialogs.Instance.Toast($"Welcome Officer, {result.officerName} 👋", TimeSpan.FromSeconds(3));
                                 Application.Current.MainPage = new NavigationPage(new Views.Officer.Dashboard());
                             }
@@ -401,5 +407,6 @@ namespace PAYYOBE
         public string officerCode { get; set; }
         public string officerEmail { get; set; }
         public string officerPhone { get; set; }
+        public string OfficerPassword { get; set; }
     }
 }

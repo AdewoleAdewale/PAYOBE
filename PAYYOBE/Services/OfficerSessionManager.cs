@@ -12,12 +12,13 @@ namespace PAYYOBE.Services
         private const string KeyCode = "Off_Code";
         private const string KeyEmail = "Off_Email";
         private const string KeyPhone = "Off_Phone";
+        private const string KeyPass = "Off_Pass";
         private const string KeyTimestamp = "Off_LoginTime";
 
         // Session validation lifetime matching enterprise window (12 Hours)
         private static readonly TimeSpan SessionExpiryWindow = TimeSpan.FromHours(12);
 
-        public static async Task SaveSessionAsync(int id, string name, string code, string email, string phone)
+        public static async Task SaveSessionAsync(int id, string name, string code, string email, string phone,string pass)
         {
             try
             {
@@ -26,6 +27,7 @@ namespace PAYYOBE.Services
                 await SecureStorage.SetAsync(KeyCode, code ?? string.Empty);
                 await SecureStorage.SetAsync(KeyEmail, email ?? string.Empty);
                 await SecureStorage.SetAsync(KeyPhone, phone ?? string.Empty);
+                await SecureStorage.SetAsync(KeyPhone, pass ?? string.Empty);
                 await SecureStorage.SetAsync(KeyTimestamp, DateTime.UtcNow.ToBinary().ToString());
             }
             catch (Exception ex)
@@ -60,6 +62,7 @@ namespace PAYYOBE.Services
                 MainPage.OfficerCode = await SecureStorage.GetAsync(KeyCode);
                 MainPage.OfficerEmail = await SecureStorage.GetAsync(KeyEmail);
                 MainPage.OfficerPhone = await SecureStorage.GetAsync(KeyPhone);
+                MainPage.OfficerPassword = await SecureStorage.GetAsync(KeyPass);
 
                 return true;
             }
@@ -83,6 +86,7 @@ namespace PAYYOBE.Services
             MainPage.OfficerCode = null;
             MainPage.OfficerEmail = null;
             MainPage.OfficerPhone = null;
+            MainPage.OfficerPassword = null;
         }
 
         public static async Task CheckAndRouteSessionAsync()
