@@ -102,7 +102,7 @@
                         <yummy:PancakeView Padding="16,0" HeightRequest="58" CornerRadius="14" BorderThickness="1.5" BorderColor="#CBD5E1" BackgroundColor="#F8FAFC" x:Name="RrrInputFrame">
                             <Grid ColumnDefinitions="*,Auto">
                                 <renderers:BorderlessEntry Grid.Column="0" Keyboard="Numeric" Placeholder="Enter 12-digit RRR Code" FontSize="16" TextColor="#0F172A" VerticalOptions="Center" x:Name="TxtRrr" TextChanged="OnRrrTextChanged"/>
-                                <ImageButton Grid.Column="1" Source="icons8eyes" BackgroundColor="Transparent" WidthRequest="44" HeightRequest="44" IsVisible="False" x:Name="BtnClearRrr"/>
+                                <ImageButton Grid.Column="1" Source="gooddone" BackgroundColor="Transparent" WidthRequest="44" HeightRequest="44" IsVisible="False" x:Name="BtnClearRrr"/>
                             </Grid>
                         </yummy:PancakeView>
                         

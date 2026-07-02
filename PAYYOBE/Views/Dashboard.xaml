@@ -240,7 +240,7 @@
                                     <Label Text="₦" FontSize="22" FontAttributes="Bold" TextColor="ForestGreen"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </yummy:PancakeView>
-                                <Label Text="DIRECT&#x0a;PAYMENT" FontSize="8.5" FontAttributes="Bold"
+                                <Label Text="PAYMENT" FontSize="8.5" FontAttributes="Bold"
                                        TextColor="#1C2B1C" CharacterSpacing="0.3" HorizontalTextAlignment="Center"/>
                             </StackLayout>
                             <yummy:PancakeView.GestureRecognizers>
@@ -264,7 +264,7 @@
                                     <Label Text="📊" FontSize="20"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </yummy:PancakeView>
-                                <Label Text="HISTORY&#x0a;REPORT" FontSize="8.5" FontAttributes="Bold"
+                                <Label Text="REPORT" FontSize="8.5" FontAttributes="Bold"
                                        TextColor="#1C2B1C" CharacterSpacing="0.3" HorizontalTextAlignment="Center"/>
                             </StackLayout>
                             <yummy:PancakeView.GestureRecognizers>
@@ -288,7 +288,7 @@
                                     <Label Text="🔐" FontSize="20"
                                            HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </yummy:PancakeView>
-                                <Label Text="CHANGE&#x0a;PASSWORD" FontSize="8.5" FontAttributes="Bold"
+                                <Label Text="SETTINGS" FontSize="8.5" FontAttributes="Bold"
                                        TextColor="#1C2B1C" CharacterSpacing="0.3" HorizontalTextAlignment="Center"/>
                             </StackLayout>
                             <yummy:PancakeView.GestureRecognizers>
