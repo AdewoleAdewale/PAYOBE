@@ -157,7 +157,7 @@ namespace PAYYOBE.Views.Officer
         {
             if (PickerService.SelectedIndex < 0) return;
             ServiceError.IsVisible = false;
-            ServiceFrame.BorderColor = Color.FromHex("#06B6D4");
+            ServiceFrame.BorderColor = Color.FromHex("#3A5A3A");
             _validationMap["Service"] = true;
             UpdateValidationProgressStatusUI();
         }
@@ -193,7 +193,7 @@ namespace PAYYOBE.Views.Officer
             {
                 if (layout != null && messageNode != null)
                 {
-                    layout.BorderColor = isValid ? Color.FromHex("#06B6D4") : Color.FromHex("#3DAA65");
+                    layout.BorderColor = isValid ? Color.FromHex("#3A5A3A") : Color.FromHex("#3A5A3A");
                     messageNode.Text = diagnostic;
                     messageNode.IsVisible = !isValid;
                 }
@@ -208,7 +208,7 @@ namespace PAYYOBE.Views.Officer
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     LblProgressText.Text = $"{completedCount}/6 fields completed";
-                    LblProgressText.TextColor = completedCount == 6 ? Color.FromHex("#06B6D4") : Color.FromHex("#3DAA65");
+                    LblProgressText.TextColor = completedCount == 6 ? Color.FromHex("#3A5A3A") : Color.FromHex("#3A5A3A");
 
                     UpdateLifecycleIndicatorDots(completedCount);
 
@@ -226,12 +226,12 @@ namespace PAYYOBE.Views.Officer
         private void UpdateLifecycleIndicatorDots(int total)
         {
             if (Step1Dot == null) return;
-            Step1Dot.Color = total >= 1 ? Color.FromHex("#06B6D4") : Color.FromHex("#CBD5E1");
-            Step2Dot.Color = total >= 2 ? Color.FromHex("#06B6D4") : Color.FromHex("#CBD5E1");
-            Step3Dot.Color = total >= 3 ? Color.FromHex("#06B6D4") : Color.FromHex("#CBD5E1");
-            Step4Dot.Color = total >= 4 ? Color.FromHex("#06B6D4") : Color.FromHex("#CBD5E1");
-            Step5Dot.Color = total >= 5 ? Color.FromHex("#06B6D4") : Color.FromHex("#CBD5E1");
-            Step6Dot.Color = total >= 6 ? Color.FromHex("#06B6D4") : Color.FromHex("#CBD5E1");
+            Step1Dot.Color = total >= 1 ? Color.FromHex("#06B6D4") : Color.FromHex("#3A5A3A");
+            Step2Dot.Color = total >= 2 ? Color.FromHex("#06B6D4") : Color.FromHex("#3A5A3A");
+            Step3Dot.Color = total >= 3 ? Color.FromHex("#06B6D4") : Color.FromHex("#3A5A3A");
+            Step4Dot.Color = total >= 4 ? Color.FromHex("#06B6D4") : Color.FromHex("#3A5A3A");
+            Step5Dot.Color = total >= 5 ? Color.FromHex("#06B6D4") : Color.FromHex("#3A5A3A");
+            Step6Dot.Color = total >= 6 ? Color.FromHex("#06B6D4") : Color.FromHex("#3A5A3A");
         }
 
         // ─────────────────────────────────────────────────────────────────
@@ -309,47 +309,51 @@ namespace PAYYOBE.Views.Officer
 
         private async void OnPrintReceiptClicked(object sender, EventArgs e)
         {
-            if (_latestInvoiceResult == null) return;
+            if (_latestInvoiceResult == null)
+            {
+                await DisplayAlert("Error", "No registered invoice record available to print.", "OK");
+                return;
+            }
 
             try
             {
                 using (UserDialogs.Instance.Loading("Connecting to Thermal Bluetooth Peripheral..."))
                 {
                     var items = new List<ReceiptItem>
-                    {
-                        new ReceiptItem { Description = "Invoice  RRR", Amount = 0m, SubText = _latestInvoiceResult.rrr },
-                        new ReceiptItem { Description = "Service Item", Amount = 0m, SubText = _latestInvoiceResult.service },
-                        new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = LblSuccessPayer.Text },
-                        new ReceiptItem { Description = "Balance Due", Amount = (decimal)_latestInvoiceResult.amount }
-                    };
+            {
+                new ReceiptItem { Description = "Invoice RRR", Amount = 0m, SubText = _latestInvoiceResult.rrr },
+                new ReceiptItem { Description = "Service Item", Amount = 0m, SubText = _latestInvoiceResult.service ?? "Government Revenue" },
+                new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = LblSuccessPayer.Text ?? "Customer" },
+                new ReceiptItem { Description = "Balance Due", Amount = (decimal)_latestInvoiceResult.amount }
+            };
 
                     var receiptPayload = new ReceiptData
                     {
-                        StoreName = "YOBE STATE REVENUE SERVICES [YIRS]",
+                        StoreName = "YOBE STATE REVENUE SERVICES YIRS",
                         StorePhone = "Contact: +234 803 052 3208",
-                        ReceiptNumber = _latestInvoiceResult.rrr,
-                        AgentName = MainPage.OfficerName,
+                        ReceiptNumber = _latestInvoiceResult.orderId,
+                        AgentName = MainPage.OfficerName ?? "Officer Portal",
                         CollectionPoint = PickerMda.SelectedItem?.ToString() ?? "YIRS Office",
                         PrintDate = DateTime.Now,
                         Items = items,
-                        AmountPaid = 0m,
-                        FooterLine1 = "Present Remita reference generation slip code ",
-                        FooterLine2 = "POWERED BY OSOFTPAY "
+                        AmountPaid = 0m, // Balance due generated slip context
+                        FooterLine1 = "Present Remita reference generation slip code",
+                        FooterLine2 = "POWERED BY OSOFTPAY"
                     };
 
-                    var targetPrintJob = await App.PrintJobManager.EnqueueAsync(receiptPayload, "Logo.png");
-                    var executionTokenSource = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds(45));
+                    // FIX: Bypassing App.PrintJobManager dependency safely
+                    var printService = new BluetoothPrinterService(use80mm: false);
 
-                    await App.PrintJobManager.ExecuteAsync(targetPrintJob.JobId, new Progress<PrintProgress>(), executionTokenSource.Token);
+                    await printService.PrintReceiptAsync(receiptPayload, "Logo.png", "YOBE PAY", default(System.Threading.CancellationToken));
+
                     UserDialogs.Instance.Toast("Receipt sequence dispatched successfully.");
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Hardware Connection Timeout", $"Thermal print link pipeline reported an error state context loop: {ex.Message}", "OK");
+                await DisplayAlert("Hardware Connection Timeout", $"Thermal print link pipeline reported an error state: {ex.Message}", "OK");
             }
         }
-
         // ─────────────────────────────────────────────────────────────────
         //  UI OVERLAY MANAGEMENT ARCHITECTURE
         // ─────────────────────────────────────────────────────────────────

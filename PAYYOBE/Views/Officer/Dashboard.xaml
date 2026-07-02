@@ -33,7 +33,7 @@
         <ScrollView BackgroundColor="#E2E8F0">
             <StackLayout Spacing="0">
 
-                <yummy:PancakeView CornerRadius="0,0,42,42" HasShadow="True" Elevation="20" Padding="0,0,0,0">
+                <yummy:PancakeView CornerRadius="0,0,22,22" HasShadow="True" Elevation="20" Padding="0,0,0,0">
                     <yummy:PancakeView.BackgroundGradientStops>
                         <yummy:GradientStopCollection>
                             <yummy:GradientStop Color="#000E04" Offset="0.0"/>

@@ -23,19 +23,6 @@ namespace PAYYOBE.Views.Officer
             InitializeComponent();
         }
 
-        private void OnRrrTextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(e.NewTextValue)) return;
-
-                // Real-time alphanumeric code string cleaning
-                string structuralDigits = new string(e.NewTextValue.Where(char.IsDigit).ToArray());
-              
-            }
-            catch { }
-        }
-
 
 
 
@@ -56,26 +43,46 @@ namespace PAYYOBE.Views.Officer
             }
         }
 
-        // ─────────────────────────────────────────────────────────────────
-        //  STEP 1: QUERY TRANSACTION BY ID & RRR CRITERIA (GET WORKFLOW)
-        // ─────────────────────────────────────────────────────────────────
+        private void OnRrrTextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(e.NewTextValue))
+                {
+                    RecordDetailsCard.IsVisible = false;
+                    return;
+                }
 
-  
+                // Real-time alphanumeric code string cleaning
+                string structuralDigits = new string(e.NewTextValue.Where(char.IsDigit).ToArray());
 
-        // ─────────────────────────────────────────────────────────────────
-        //  STEP 2: POST MAKE PAYMENT WORKFLOW PROCESSING
-        // ─────────────────────────────────────────────────────────────────
+                // Show the payment option immediately when 12 digits are reached
+                if (structuralDigits.Length == 12)
+                {
+                    TxtRrr.Unfocus(); // Dismiss keyboard
+                    RecordDetailsCard.IsVisible = true;
+                }
+                else
+                {
+                    RecordDetailsCard.IsVisible = false;
+                }
+            }
+            catch { }
+        }
 
         private async void OnPostPaymentClicked(object sender, EventArgs e)
         {
-            if (_verifiedCachedTransaction == null) return;
+            string rrrCode = TxtRrr.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(rrrCode)) return;
 
             SetPostLoadingState(true);
 
             try
             {
                 string targetUrl = "https://payyobe.com/api/v1/MakePayment";
-                var bodyParametersPayload = new { OfficerId = MainPage.OfficerId, RRR = _verifiedCachedTransaction.rrr };
+
+                // Build the payload directly from the input entry instead of a cached model
+                var bodyParametersPayload = new { OfficerId = MainPage.OfficerId, RRR = rrrCode };
 
                 string contentPayloadSerialized = JsonConvert.SerializeObject(bodyParametersPayload);
                 using (var abstractStringContent = new StringContent(contentPayloadSerialized, Encoding.UTF8, "application/json"))
@@ -92,12 +99,12 @@ namespace PAYYOBE.Views.Officer
 
                     if (executionModelResult != null && executionModelResult.statusCode == "00")
                     {
-                        // Bind mapping values safely to the display success container module sheets
-                        LblSheetPayer.Text = executionModelResult.payer ?? _verifiedCachedTransaction.payer_Name;
-                        LblSheetRrr.Text = executionModelResult.rrr;
+                        // Bind mapping values falling back securely if needed
+                        LblSheetPayer.Text = executionModelResult.payer ?? "Officer Collection Step";
+                        LblSheetRrr.Text = executionModelResult.rrr ?? rrrCode;
                         LblSheetAmount.Text = $"₦{executionModelResult.amount:N0}";
 
-                        // Present receipt confirmation node view screen elements layout sheets
+                        // Present receipt confirmation sheet overlay view
                         await PresentInteractiveOverlayAsync(SuccessSheet);
                     }
                     else
@@ -120,9 +127,12 @@ namespace PAYYOBE.Views.Officer
         //  THERMAL HARDWARE CORE DISPATCH ENGAGEMENTS
         // ─────────────────────────────────────────────────────────────────
 
+       
         private async void OnPrintSlipClicked(object sender, EventArgs e)
         {
-            if (_verifiedCachedTransaction == null) return;
+            // Use the input field text directly since verification is skipped
+            string rrrCode = TxtRrr.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(rrrCode)) return;
 
             try
             {
@@ -130,8 +140,7 @@ namespace PAYYOBE.Views.Officer
                 {
                     var itemCollectionMatrix = new List<ReceiptItem>
                     {
-                        new ReceiptItem { Description = "REMITA COLLECTION CODE RRR", Amount = 0m, SubText = _verifiedCachedTransaction.rrr },
-                        new ReceiptItem { Description = " Revenue Service", Amount = 0m, SubText = _verifiedCachedTransaction.service_Name },
+                        new ReceiptItem { Description = "REMITA  RRR", Amount = 0m, SubText = _verifiedCachedTransaction.rrr },
                         new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = LblSheetPayer.Text },
                         new ReceiptItem { Description = "Agent Name", Amount = 0m, SubText = $"Officer ID #{MainPage.OfficerName}" },
                         new ReceiptItem { Description = "Amount Settled", Amount = (decimal)_verifiedCachedTransaction.amount }
@@ -150,10 +159,12 @@ namespace PAYYOBE.Views.Officer
                         FooterLine2 = "POWERED BY OSOFTPAY "
                     };
 
-                    var job = await App.PrintJobManager.EnqueueAsync(standardReceiptDataContract, "Logo.png");
-                    var timeoutCancellationToken = new System.Threading.CancellationTokenSource(TimeSpan.FromSeconds(40));
+                    // FIX: Instantiating service safely to bypass App.PrintJobManager null pointers
+                    var printService = new BluetoothPrinterService(use80mm: false);
 
-                    await App.PrintJobManager.ExecuteAsync(job.JobId, new Progress<PrintProgress>(), timeoutCancellationToken.Token);
+                    // Dispatch task directly via your platform-bound peripheral engine hook
+                    await printService.PrintReceiptAsync(standardReceiptDataContract, "Logo.png", "YOBE PAY", default(System.Threading.CancellationToken));
+
                     UserDialogs.Instance.Toast("Receipt job dispatched to printer queue.");
                 }
             }
@@ -162,12 +173,6 @@ namespace PAYYOBE.Views.Officer
                 await DisplayAlert("Printing Error", $"Thermal link reported an operational hardware error sequence: {ex.Message}", "OK");
             }
         }
-
-        // ─────────────────────────────────────────────────────────────────
-        //  UI STATE UTILITY MANAGEMENT ENGINES
-        // ─────────────────────────────────────────────────────────────────
-
- 
 
         private void SetPostLoadingState(bool executing)
         {

@@ -109,6 +109,7 @@
                     </StackLayout>
                 </yummy:PancakeView>
 
+                <!-- Keep this IsVisible="False" initially so it only appears when an RRR is found -->
                 <yummy:PancakeView Margin="16,16,16,0" Padding="22" BackgroundColor="White" CornerRadius="24" HasShadow="True" Elevation="4" IsVisible="False" x:Name="RecordDetailsCard">
                     <StackLayout Spacing="16">
 
@@ -121,6 +122,7 @@
                                 <TapGestureRecognizer Tapped="OnPostPaymentClicked"/>
                             </yummy:PancakeView.GestureRecognizers>
                         </yummy:PancakeView>
+
                     </StackLayout>
                 </yummy:PancakeView>
 

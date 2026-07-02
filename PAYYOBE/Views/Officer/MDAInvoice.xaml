@@ -136,19 +136,19 @@
                                     <Label x:Name="HeaderOfficerName" Text="Officer Account" FontSize="13" FontAttributes="Bold" TextColor="White" LineBreakMode="TailTruncation"/>
                                     <Label x:Name="HeaderOfficerCode" Text="Code Context" FontSize="10" TextColor="Orange" LineBreakMode="TailTruncation"/>
                                 </StackLayout>
-                                <yummy:PancakeView Grid.Column="2" BackgroundColor="#2006B6D4" CornerRadius="8" Padding="10,5" BorderColor="#4006B6D4" BorderThickness="1" VerticalOptions="Center">
-                                    <Label Text="PAYYOBE" FontSize="8.5" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#1A5C35"/>
+                                <yummy:PancakeView Grid.Column="2" BackgroundColor="#2006B6D4" CornerRadius="8" Padding="10,5" BorderColor="White" BorderThickness="1" VerticalOptions="Center">
+                                    <Label Text="PAYYOBE" FontSize="8.5" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="White"/>
                                 </yummy:PancakeView>
                             </Grid>
                         </yummy:PancakeView>
 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,20,0,0">
-                            <BoxView x:Name="Step1Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
-                            <BoxView x:Name="Step2Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
-                            <BoxView x:Name="Step3Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
-                            <BoxView x:Name="Step4Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
-                            <BoxView x:Name="Step5Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
-                            <BoxView x:Name="Step6Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
+                            <BoxView x:Name="Step1Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="White"/>
+                            <BoxView x:Name="Step2Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="White"/>
+                            <BoxView x:Name="Step3Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="White"/>
+                            <BoxView x:Name="Step4Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="White"/>
+                            <BoxView x:Name="Step5Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="White"/>
+                            <BoxView x:Name="Step6Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="White"/>
                         </StackLayout>
                     </StackLayout>
                 </yummy:PancakeView>
