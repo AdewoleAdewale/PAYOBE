@@ -9,8 +9,47 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Color x:Key="NavyDeep">#0F172A</Color>
-            <Color x:Key="CyanAccent">#06B6D4</Color>
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Green" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
+
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="ForestGreen" />
+                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="BorderColor" Value="ForestGreen" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
+
+            <!-- Reprint button style — amber/orange to stand out clearly -->
+            <Style x:Key="ReprintButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#E67E22" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
+
+            <Style x:Key="InputFrameStyle" TargetType="Frame">
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="BorderColor" Value="LightGray" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Padding" Value="15,10" />
+                <Setter Property="BackgroundColor" Value="#F8F9FA" />
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
 
             <Style x:Key="FieldLabelStyle" TargetType="Label">
                 <Setter Property="Margin"           Value="2,0,0,7"/>
@@ -19,6 +58,13 @@
                 <Setter Property="TextColor"        Value="#334155"/>
                 <Setter Property="CharacterSpacing" Value="1.2"/>
             </Style>
+            
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="#2D3436" />
+                <Setter Property="Margin" Value="0,10,0,5" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -26,7 +72,7 @@
         <ScrollView BackgroundColor="#F1F5F9">
             <StackLayout Spacing="0">
 
-                <yummy:PancakeView CornerRadius="0,0,36,36" HasShadow="True" Elevation="12" BackgroundColor="#0F172A">
+                <yummy:PancakeView CornerRadius="0,0,36,36" HasShadow="True" Elevation="12" BackgroundColor="#004225">
                     <StackLayout Padding="24,52,24,32" Spacing="0">
                         <Grid ColumnDefinitions="52,*,52" ColumnSpacing="8">
                             <yummy:PancakeView Grid.Column="0" BackgroundColor="#18FFFFFF" CornerRadius="16" WidthRequest="52" HeightRequest="52" BorderColor="#28FFFFFF" BorderThickness="1">
@@ -38,7 +84,7 @@
                             </yummy:PancakeView>
 
                             <StackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center" HorizontalOptions="Center">
-                                <Label Text="MDA PAYMENT PORTAL" FontSize="14" FontAttributes="Bold" CharacterSpacing="2.5" TextColor="#06B6D4" HorizontalOptions="Center"/>
+                                <Label Text="MDA PAYMENT PORTAL" FontSize="14" FontAttributes="Bold" CharacterSpacing="2.5" TextColor="White" HorizontalOptions="Center"/>
                                 <Label Text="Process &amp; Confirm Government Receipts" FontSize="10" TextColor="#94A3B8" HorizontalOptions="Center"/>
                             </StackLayout>
 
@@ -65,8 +111,8 @@
 
                 <yummy:PancakeView Margin="16,16,16,0" Padding="22" BackgroundColor="White" CornerRadius="24" HasShadow="True" Elevation="4" IsVisible="False" x:Name="RecordDetailsCard">
                     <StackLayout Spacing="16">
-             
-                        <yummy:PancakeView HeightRequest="58" CornerRadius="14" BackgroundColor="#06B6D4" HasShadow="True" Elevation="4" x:Name="BtnPostPayment">
+
+                        <yummy:PancakeView HeightRequest="58" CornerRadius="14" BackgroundColor="#132813" HasShadow="True" Elevation="4" x:Name="BtnPostPayment">
                             <Grid>
                                 <Label Text="CONFIRM &amp; PROCESS PAYMENT" FontAttributes="Bold" FontSize="14" TextColor="White" CharacterSpacing="1" HorizontalOptions="Center" VerticalOptions="Center" x:Name="LblPostBtn"/>
                                 <ActivityIndicator IsRunning="False" IsVisible="False" Color="White" HeightRequest="24" WidthRequest="24" HorizontalOptions="End" Margin="0,0,16,0" x:Name="PostLoadingIndicator"/>
@@ -78,10 +124,10 @@
                     </StackLayout>
                 </yummy:PancakeView>
 
-                <yummy:PancakeView Margin="16,16,16,40" Padding="16,14" BackgroundColor="#0F172A" CornerRadius="16">
+                <yummy:PancakeView Margin="16,16,16,40" Padding="16,14" BackgroundColor="#004225" CornerRadius="16">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                        <Label Grid.Column="0" Text="🔒" FontSize="16" VerticalOptions="Center"/>
-                        <Label Grid.Column="1" Text="All officer payment collection events are fully audited and synchronized with the YIRS central transaction ledger." TextColor="#94A3B8" FontSize="11" LineBreakMode="WordWrap" VerticalOptions="Center"/>
+                        <Label Grid.Column="0" Text="🔒" FontSize="16" VerticalOptions="Center" TextColor="White"/>
+                        <Label Grid.Column="1" Text="All officer payment collection events are fully audited and synchronized with the YIRS central transaction ledger." HorizontalTextAlignment="Center" TextColor="White" FontSize="11" LineBreakMode="WordWrap" VerticalOptions="Center"/>
                     </Grid>
                 </yummy:PancakeView>
             </StackLayout>
@@ -99,10 +145,10 @@
 
                 <StackLayout Orientation="Horizontal" Spacing="14">
                     <yummy:PancakeView BackgroundColor="#DCFCE7" CornerRadius="16" WidthRequest="48" HeightRequest="48">
-                        <Label Text="✓" FontSize="22" FontAttributes="Bold" TextColor="#15803D" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Text="✓" FontSize="22" FontAttributes="Bold" TextColor="#132813" HorizontalOptions="Center" VerticalOptions="Center"/>
                     </yummy:PancakeView>
                     <StackLayout Spacing="2" VerticalOptions="Center">
-                        <Label Text="Payment Processed!" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
+                        <Label Text="Payment Processed!" FontSize="18" FontAttributes="Bold" TextColor="#132813"/>
                         <Label Text="The invoice has been verified and settled." FontSize="11.5" TextColor="#64748B"/>
                     </StackLayout>
                 </StackLayout>
@@ -113,21 +159,21 @@
                     <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
                         <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2">
                             <Label Text="PAYER ACCOUNT" FontSize="8.5" FontAttributes="Bold" TextColor="#64748B" CharacterSpacing="1"/>
-                            <Label FontSize="14" FontAttributes="Bold" TextColor="#0F172A" x:Name="LblSheetPayer"/>
+                            <Label FontSize="14" FontAttributes="Bold" TextColor="#132813" x:Name="LblSheetPayer"/>
                         </StackLayout>
                         <StackLayout Grid.Row="1" Grid.Column="0" Spacing="2" Margin="0,12,0,0">
                             <Label Text="SETTLED REFERENCE CODE" FontSize="8.5" FontAttributes="Bold" TextColor="#64748B" CharacterSpacing="1"/>
-                            <Label FontSize="14" FontAttributes="Bold" TextColor="#06B6D4" x:Name="LblSheetRrr"/>
+                            <Label FontSize="14" FontAttributes="Bold" TextColor="#004225" x:Name="LblSheetRrr"/>
                         </StackLayout>
                         <StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Spacing="2">
                             <Label Text="AMOUNT PAID" FontSize="8.5" FontAttributes="Bold" TextColor="#64748B" HorizontalOptions="End"/>
-                            <Label FontSize="20" FontAttributes="Bold" TextColor="#15803D" x:Name="LblSheetAmount"/>
+                            <Label FontSize="20" FontAttributes="Bold" TextColor="#132813" x:Name="LblSheetAmount"/>
                         </StackLayout>
                     </Grid>
                 </yummy:PancakeView>
 
-                <Button Text="🖨️ PRINT THERMAL SLIP" BackgroundColor="#0F172A" TextColor="White" CornerRadius="12" HeightRequest="54" FontAttributes="Bold" Clicked="OnPrintSlipClicked"/>
-                <Button Text="CLOSE PORTAL WINDOW" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="12" HeightRequest="50" Clicked="OnDismissSheetClicked"/>
+                <Button Text="🖨️ PRINT THERMAL SLIP" BackgroundColor="#132813" TextColor="White" CornerRadius="12" HeightRequest="54" FontAttributes="Bold" Clicked="OnPrintSlipClicked"/>
+                <Button Text="CLOSE PORTAL WINDOW" BackgroundColor="#E2E8F0" TextColor="#132813" CornerRadius="12" HeightRequest="50" Clicked="OnDismissSheetClicked"/>
             </StackLayout>
         </yummy:PancakeView>
     </Grid>

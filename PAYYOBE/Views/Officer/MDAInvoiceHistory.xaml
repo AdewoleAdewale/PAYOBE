@@ -9,9 +9,9 @@
         <ScrollView>
             <StackLayout Spacing="0">
 
-                <yummy:PancakeView CornerRadius="0" Padding="24,36,24,42" BackgroundColor="#0F172A">
+                <yummy:PancakeView CornerRadius="0" Padding="24,36,24,42" BackgroundColor="#004225">
                     <StackLayout Spacing="0">
-                        <Label Text="OFFICER AUDIT LEDGER" FontSize="10" FontAttributes="Bold" TextColor="#06B6D4" CharacterSpacing="2.5" Margin="0,0,0,6"/>
+                        <Label Text="OFFICER AUDIT LEDGER" FontSize="10" FontAttributes="Bold" TextColor="ForestGreen" CharacterSpacing="2.5" Margin="0,0,0,6"/>
                         <Label Text="Transaction Logs" FontSize="26" FontAttributes="Bold" TextColor="White"/>
                         <Label Text="Search and manage verified revenue instances" FontSize="12" TextColor="#94A3B8" Margin="0,4,0,0"/>
                     </StackLayout>
@@ -24,18 +24,18 @@
                             <StackLayout Grid.Column="0" Spacing="4">
                                 <Label Text="START DATE" FontSize="8" FontAttributes="Bold" TextColor="#64748B"/>
                                 <yummy:PancakeView BackgroundColor="#F8FAFC" CornerRadius="8" Padding="10,0" HeightRequest="44" BorderColor="#CBD5E1" BorderThickness="1">
-                                    <DatePicker x:Name="StartDatePicker" Format="yyyy-MM-dd" FontSize="12" TextColor="#0F172A"/>
+                                    <DatePicker x:Name="StartDatePicker" Format="yyyy-MM-dd" FontSize="12" TextColor="#132813"/>
                                 </yummy:PancakeView>
                             </StackLayout>
                             <StackLayout Grid.Column="1" Spacing="4">
                                 <Label Text="END DATE" FontSize="8" FontAttributes="Bold" TextColor="#64748B"/>
                                 <yummy:PancakeView BackgroundColor="#F8FAFC" CornerRadius="8" Padding="10,0" HeightRequest="44" BorderColor="#CBD5E1" BorderThickness="1">
-                                    <DatePicker x:Name="EndDatePicker" Format="yyyy-MM-dd" FontSize="12" TextColor="#0F172A"/>
+                                    <DatePicker x:Name="EndDatePicker" Format="yyyy-MM-dd" FontSize="12" TextColor="#132813"/>
                                 </yummy:PancakeView>
                             </StackLayout>
                         </Grid>
 
-                        <yummy:PancakeView CornerRadius="12" HeightRequest="48" BackgroundColor="#06B6D4" HasShadow="True">
+                        <yummy:PancakeView CornerRadius="12" HeightRequest="48" BackgroundColor="#004225" HasShadow="True">
                             <Label Text="EXECUTE LOG SEARCH" FontSize="12" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
                             <yummy:PancakeView.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnSearchLogsTapped"/>
@@ -52,7 +52,7 @@
                         </StackLayout>
                         <BoxView Grid.Column="1" BackgroundColor="#E2E8F0" WidthRequest="1" VerticalOptions="Fill"/>
                         <StackLayout Grid.Column="2" HorizontalOptions="Center">
-                            <Label x:Name="SumTotal" FontSize="16" FontAttributes="Bold" TextColor="#06B6D4" HorizontalOptions="Center"/>
+                            <Label x:Name="SumTotal" FontSize="16" FontAttributes="Bold" TextColor="#132813" HorizontalOptions="Center"/>
                             <Label Text="Net Managed" FontSize="8" TextColor="#64748B" HorizontalOptions="Center"/>
                         </StackLayout>
                         <BoxView Grid.Column="3" BackgroundColor="#E2E8F0" WidthRequest="1" VerticalOptions="Fill"/>
@@ -98,7 +98,7 @@
         <Grid x:Name="LoadingOverlay" IsVisible="False" BackgroundColor="#900F172A">
             <yummy:PancakeView BackgroundColor="White" CornerRadius="16" Padding="24" HorizontalOptions="Center" VerticalOptions="Center">
                 <StackLayout Spacing="12">
-                    <ActivityIndicator IsRunning="True" Color="#06B6D4" WidthRequest="32" HeightRequest="32"/>
+                    <ActivityIndicator IsRunning="True" Color="#132813" WidthRequest="32" HeightRequest="32"/>
                     <Label Text="Fetching engine logs..." FontSize="12" TextColor="#0F172A" FontAttributes="Bold"/>
                 </StackLayout>
             </yummy:PancakeView>

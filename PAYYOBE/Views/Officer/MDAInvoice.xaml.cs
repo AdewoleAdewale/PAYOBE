@@ -63,7 +63,7 @@ namespace PAYYOBE.Views.Officer
         {
             try
             {
-                PickerMda.Title = "⏳ Synchronizing Government MDAs...";
+                PickerMda.Title = "+ Synchronizing Government MDAs...";
                 PickerMda.IsEnabled = false;
 
                 string password = await SecureStorage.GetAsync("OfficerPassword") ?? string.Empty;
@@ -112,7 +112,7 @@ namespace PAYYOBE.Views.Officer
 
             PickerService.IsEnabled = false;
             PickerService.ItemsSource = null;
-            PickerService.Title = "⏳ Downloading Associated MDA Services...";
+            PickerService.Title = "+ Downloading Associated MDA Services...";
             _validationMap["Service"] = false;
 
             try
@@ -193,7 +193,7 @@ namespace PAYYOBE.Views.Officer
             {
                 if (layout != null && messageNode != null)
                 {
-                    layout.BorderColor = isValid ? Color.FromHex("#06B6D4") : Color.FromHex("#D94040");
+                    layout.BorderColor = isValid ? Color.FromHex("#06B6D4") : Color.FromHex("#3DAA65");
                     messageNode.Text = diagnostic;
                     messageNode.IsVisible = !isValid;
                 }
@@ -208,7 +208,7 @@ namespace PAYYOBE.Views.Officer
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     LblProgressText.Text = $"{completedCount}/6 fields completed";
-                    LblProgressText.TextColor = completedCount == 6 ? Color.FromHex("#06B6D4") : Color.FromHex("#D94040");
+                    LblProgressText.TextColor = completedCount == 6 ? Color.FromHex("#06B6D4") : Color.FromHex("#3DAA65");
 
                     UpdateLifecycleIndicatorDots(completedCount);
 
@@ -317,25 +317,24 @@ namespace PAYYOBE.Views.Officer
                 {
                     var items = new List<ReceiptItem>
                     {
-                        new ReceiptItem { Description = "INVOICE REFERENCE RRR", Amount = 0m, SubText = _latestInvoiceResult.rrr },
-                        new ReceiptItem { Description = "Assigned Service Item", Amount = 0m, SubText = _latestInvoiceResult.service },
-                        new ReceiptItem { Description = "Payer Full Name", Amount = 0m, SubText = LblSuccessPayer.Text },
-                        new ReceiptItem { Description = "Order Record System Link ID", Amount = 0m, SubText = _latestInvoiceResult.orderId },
-                        new ReceiptItem { Description = "Total Balance Due", Amount = (decimal)_latestInvoiceResult.amount }
+                        new ReceiptItem { Description = "Invoice  RRR", Amount = 0m, SubText = _latestInvoiceResult.rrr },
+                        new ReceiptItem { Description = "Service Item", Amount = 0m, SubText = _latestInvoiceResult.service },
+                        new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = LblSuccessPayer.Text },
+                        new ReceiptItem { Description = "Balance Due", Amount = (decimal)_latestInvoiceResult.amount }
                     };
 
                     var receiptPayload = new ReceiptData
                     {
                         StoreName = "YOBE STATE REVENUE SERVICES [YIRS]",
-                        StorePhone = "Officer Node Terminal Administration",
+                        StorePhone = "Contact: +234 803 052 3208",
                         ReceiptNumber = _latestInvoiceResult.rrr,
                         AgentName = MainPage.OfficerName,
                         CollectionPoint = PickerMda.SelectedItem?.ToString() ?? "YIRS Office",
                         PrintDate = DateTime.Now,
                         Items = items,
                         AmountPaid = 0m,
-                        FooterLine1 = "Present Remita reference generation slip code at bank window counters.",
-                        FooterLine2 = "POWERED BY OSOFTPAY SYSTEM NETWORK"
+                        FooterLine1 = "Present Remita reference generation slip code ",
+                        FooterLine2 = "POWERED BY OSOFTPAY "
                     };
 
                     var targetPrintJob = await App.PrintJobManager.EnqueueAsync(receiptPayload, "Logo.png");

@@ -131,24 +131,23 @@ namespace PAYYOBE.Views.Officer
                     var itemCollectionMatrix = new List<ReceiptItem>
                     {
                         new ReceiptItem { Description = "REMITA COLLECTION CODE RRR", Amount = 0m, SubText = _verifiedCachedTransaction.rrr },
-                        new ReceiptItem { Description = "Allocated Revenue Service", Amount = 0m, SubText = _verifiedCachedTransaction.service_Name },
-                        new ReceiptItem { Description = "Payer Depositor Name", Amount = 0m, SubText = LblSheetPayer.Text },
-                        new ReceiptItem { Description = "Account Settlement Node ID", Amount = 0m, SubText = $"Officer ID #{MainPage.OfficerId}" },
-                        new ReceiptItem { Description = "Total Value Settled", Amount = (decimal)_verifiedCachedTransaction.amount }
+                        new ReceiptItem { Description = " Revenue Service", Amount = 0m, SubText = _verifiedCachedTransaction.service_Name },
+                        new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = LblSheetPayer.Text },
+                        new ReceiptItem { Description = "Agent Name", Amount = 0m, SubText = $"Officer ID #{MainPage.OfficerName}" },
+                        new ReceiptItem { Description = "Amount Settled", Amount = (decimal)_verifiedCachedTransaction.amount }
                     };
 
                     var standardReceiptDataContract = new ReceiptData
                     {
                         StoreName = "YOBE STATE REVENUE SERVICES [YIRS]",
-                        StorePhone = "Official Revenue Collector Copy Terminal",
+                        StorePhone = "Contact: +234 803 052 3208",
                         ReceiptNumber = _verifiedCachedTransaction.rrr,
                         AgentName = MainPage.OfficerName,
-                        CollectionPoint = "YIRS Officer Operational Desk",
                         PrintDate = DateTime.Now,
                         Items = itemCollectionMatrix,
                         AmountPaid = (decimal)_verifiedCachedTransaction.amount,
                         FooterLine1 = "This payment confirmation document is legally verified.",
-                        FooterLine2 = "SYSTEM INFRASTRUCTURE NET POWERED BY OSOFTPAY"
+                        FooterLine2 = "POWERED BY OSOFTPAY "
                     };
 
                     var job = await App.PrintJobManager.EnqueueAsync(standardReceiptDataContract, "Logo.png");

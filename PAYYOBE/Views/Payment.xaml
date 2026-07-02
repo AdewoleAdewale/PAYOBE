@@ -29,6 +29,13 @@
                 <Setter Property="Margin" Value="0,5" />
             </Style>
 
+            <Style x:Key="FieldLabelStyle" TargetType="Label">
+                <Setter Property="Margin"           Value="2,0,0,7"/>
+                <Setter Property="FontSize"         Value="10.5"/>
+                <Setter Property="FontAttributes"   Value="Bold"/>
+                <Setter Property="TextColor"        Value="#334155"/>
+                <Setter Property="CharacterSpacing" Value="1.2"/>
+            </Style>
             <!-- Reprint button style — amber/orange to stand out clearly -->
             <Style x:Key="ReprintButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="#E67E22" />

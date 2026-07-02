@@ -47,7 +47,7 @@
 
             <!-- ── Entry text ───────────────────────────────────────────── -->
             <Style x:Key="EntryStyle" TargetType="renderers11:BorderlessEntry">
-                <Setter Property="FontSize"         Value="15"/>
+                <Setter Property="FontSize"         Value="12"/>
                 <Setter Property="TextColor"        Value="#132813"/>
                 <Setter Property="PlaceholderColor" Value="#98AE98"/>
                 <Setter Property="VerticalOptions"  Value="Center"/>
@@ -100,7 +100,7 @@
                                    x:Name="headerSection">
                     <yummy:PancakeView.BackgroundGradientStops>
                         <yummy:GradientStopCollection>
-                            <yummy:GradientStop Color="#000D04" Offset="0.0"/>
+                            <yummy:GradientStop Color="#0F172A" Offset="0.0"/>
                             <yummy:GradientStop Color="#002010" Offset="0.40"/>
                             <yummy:GradientStop Color="#003D1F" Offset="0.75"/>
                             <yummy:GradientStop Color="#005530" Offset="1.0"/>

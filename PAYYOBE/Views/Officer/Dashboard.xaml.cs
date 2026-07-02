@@ -77,9 +77,9 @@ namespace PAYYOBE.Views.Officer
         private static string GetGreeting()
         {
             int hour = DateTime.Now.Hour;
-            if (hour < 12) return "System Operational 🌅";
-            if (hour < 17) return "System Operational ☀️";
-            return "System Operational 🌙";
+            if (hour < 12) return "Good Evening 🌅";
+            if (hour < 17) return "Good Afternoon ☀️";
+            return "Good Morning 🌙";
         }
 
         private void SetTxnState(bool loading, bool empty, bool error, bool list)
@@ -103,7 +103,7 @@ namespace PAYYOBE.Views.Officer
   
 
         private async void OnNewInvoiceTapped(object sender, EventArgs e) => await Navigation.PushAsync(new Views.Officer.MDAInvoice());
-        private async void OnTaxReportTapped(object sender, EventArgs e) => await Navigation.PushAsync(new Views.History());
+        private async void OnTaxReportTapped(object sender, EventArgs e) => await Navigation.PushAsync(new Views.Officer.MDAInvoiceHistory());
         private async void OnSettingsTapped(object sender, EventArgs e) => await CallPrinterAsync();
         private async void OnTxnRetryTapped(object sender, EventArgs e) => await FetchRecentActivityAsync();
         private async void OnDirectPaymentTapped(object sender, EventArgs e) => await Navigation.PushAsync(new Views.Officer.MDAPayment());

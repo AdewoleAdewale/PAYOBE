@@ -7,37 +7,80 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+
+            <!-- ── Entry containers ─────────────────────────────────────── -->
             <Style x:Key="EntryContainerStyle" TargetType="yummy:PancakeView">
                 <Setter Property="Padding"         Value="16,0,16,0"/>
                 <Setter Property="BackgroundColor" Value="#F8FBF8"/>
                 <Setter Property="BorderThickness" Value="1.5"/>
-                <Setter Property="BorderColor"     Value="#CBD5E1"/>
+                <Setter Property="BorderColor"     Value="#1A5C35"/>
                 <Setter Property="CornerRadius"    Value="16"/>
                 <Setter Property="Elevation"       Value="2"/>
                 <Setter Property="HeightRequest"   Value="58"/>
                 <Setter Property="HasShadow"       Value="True"/>
             </Style>
 
+            <Style x:Key="EntryContainerErrorStyle" TargetType="yummy:PancakeView">
+                <Setter Property="Padding"         Value="16,0,16,0"/>
+                <Setter Property="BackgroundColor" Value="#FFF5F5"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderColor"     Value="#FF5F5F"/>
+                <Setter Property="CornerRadius"    Value="16"/>
+                <Setter Property="Elevation"       Value="2"/>
+                <Setter Property="HeightRequest"   Value="58"/>
+                <Setter Property="HasShadow"       Value="True"/>
+            </Style>
+
+            <Style x:Key="EntryContainerSuccessStyle" TargetType="yummy:PancakeView">
+                <Setter Property="Padding"         Value="16,0,16,0"/>
+                <Setter Property="BackgroundColor" Value="#F2FCF5"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderColor"     Value="#3DAA65"/>
+                <Setter Property="CornerRadius"    Value="16"/>
+                <Setter Property="Elevation"       Value="2"/>
+                <Setter Property="HeightRequest"   Value="58"/>
+                <Setter Property="HasShadow"       Value="True"/>
+            </Style>
+
+            <!-- ── Entry text ───────────────────────────────────────────── -->
             <Style x:Key="EntryStyle" TargetType="renderers:BorderlessEntry">
-                <Setter Property="FontSize"         Value="15"/>
-                <Setter Property="TextColor"        Value="#0F172A"/>
-                <Setter Property="PlaceholderColor" Value="#94A3B8"/>
+                <Setter Property="FontSize"         Value="12"/>
+                <Setter Property="TextColor"        Value="#132813"/>
+                <Setter Property="PlaceholderColor" Value="#98AE98"/>
                 <Setter Property="VerticalOptions"  Value="Center"/>
             </Style>
 
+            <!-- ── Field label ──────────────────────────────────────────── -->
             <Style x:Key="FieldLabelStyle" TargetType="Label">
                 <Setter Property="Margin"           Value="2,0,0,7"/>
                 <Setter Property="FontSize"         Value="10.5"/>
                 <Setter Property="FontAttributes"   Value="Bold"/>
-                <Setter Property="TextColor"        Value="#334155"/>
+                <Setter Property="TextColor"        Value="#3A5A3A"/>
                 <Setter Property="CharacterSpacing" Value="1.2"/>
             </Style>
 
+            <!-- ── Error label ──────────────────────────────────────────── -->
             <Style x:Key="ErrorLabelStyle" TargetType="Label">
                 <Setter Property="TextColor"   Value="#D94040"/>
                 <Setter Property="FontSize"    Value="11"/>
                 <Setter Property="Margin"      Value="4,5,4,0"/>
             </Style>
+
+            <!-- ── Sheet overlay ────────────────────────────────────────── -->
+            <Style x:Key="SheetOverlayStyle" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="#88000A05"/>
+                <Setter Property="Opacity"         Value="0"/>
+            </Style>
+
+            <!-- ── Sheet container ──────────────────────────────────────── -->
+            <Style x:Key="SheetContainerStyle" TargetType="yummy:PancakeView">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="CornerRadius"    Value="30,30,0,0"/>
+                <Setter Property="HasShadow"       Value="True"/>
+                <Setter Property="Elevation"       Value="20"/>
+                <Setter Property="TranslationY"    Value="1000"/>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -45,7 +88,16 @@
         <ScrollView BackgroundColor="#F1F5F9">
             <StackLayout Spacing="0">
 
-                <yummy:PancakeView CornerRadius="0,0,36,36" HasShadow="True" Elevation="18" x:Name="HeaderSection" BackgroundColor="#0F172A">
+                <yummy:PancakeView CornerRadius="0,0,36,36" HasShadow="True" Elevation="18" x:Name="HeaderSection" >
+                    <yummy:PancakeView.BackgroundGradientStops>
+                        <yummy:GradientStopCollection>
+                            <yummy:GradientStop Color="#0F172A" Offset="0.0"/>
+                            <yummy:GradientStop Color="#002010" Offset="0.40"/>
+                            <yummy:GradientStop Color="#003D1F" Offset="0.75"/>
+                            <yummy:GradientStop Color="#005530" Offset="1.0"/>
+                        </yummy:GradientStopCollection>
+                    </yummy:PancakeView.BackgroundGradientStops>
+
                     <StackLayout Padding="24,52,24,36" Spacing="0">
                         <Grid ColumnDefinitions="52,*,52" ColumnSpacing="8" Margin="0,0,0,30">
                             <yummy:PancakeView Grid.Column="0" BackgroundColor="#18FFFFFF" CornerRadius="16" WidthRequest="52" HeightRequest="52" BorderColor="#28FFFFFF" BorderThickness="1">
@@ -57,7 +109,7 @@
                             </yummy:PancakeView>
 
                             <StackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center" HorizontalOptions="Center">
-                                <Label Text="MDA INVOICE ENGINE" FontSize="14" FontAttributes="Bold" CharacterSpacing="3" TextColor="#06B6D4" HorizontalOptions="Center"/>
+                                <Label Text="MDA INVOICE ENGINE" FontSize="14" FontAttributes="Bold" CharacterSpacing="3" TextColor="#1A5C35" HorizontalOptions="Center"/>
                                 <Label Text="Official Inter-Agency Assessment System" FontSize="10" TextColor="#94A3B8" CharacterSpacing="0.5" HorizontalOptions="Center"/>
                             </StackLayout>
 
@@ -68,26 +120,35 @@
 
                         <yummy:PancakeView BackgroundColor="#15FFFFFF" CornerRadius="18" Padding="16,14" BorderColor="#20FFFFFF" BorderThickness="1">
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                                <yummy:PancakeView Grid.Column="0" CornerRadius="14" WidthRequest="44" HeightRequest="44" BackgroundColor="#06B6D4">
-                                    <Label Text="🏛" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                           
+                                <yummy:PancakeView Grid.Column="0" CornerRadius="14"
+                     WidthRequest="44" HeightRequest="44">
+                                    <yummy:PancakeView.BackgroundGradientStops>
+                                        <yummy:GradientStopCollection>
+                                            <yummy:GradientStop Color="#1A5C35" Offset="0.0"/>
+                                            <yummy:GradientStop Color="#27AE60" Offset="1.0"/>
+                                        </yummy:GradientStopCollection>
+                                    </yummy:PancakeView.BackgroundGradientStops>
+                                    <Image Source="gooddone" HeightRequest="30"
+             HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </yummy:PancakeView>
                                 <StackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
                                     <Label x:Name="HeaderOfficerName" Text="Officer Account" FontSize="13" FontAttributes="Bold" TextColor="White" LineBreakMode="TailTruncation"/>
-                                    <Label x:Name="HeaderOfficerCode" Text="Code Context" FontSize="10" TextColor="#06B6D4" LineBreakMode="TailTruncation"/>
+                                    <Label x:Name="HeaderOfficerCode" Text="Code Context" FontSize="10" TextColor="Orange" LineBreakMode="TailTruncation"/>
                                 </StackLayout>
                                 <yummy:PancakeView Grid.Column="2" BackgroundColor="#2006B6D4" CornerRadius="8" Padding="10,5" BorderColor="#4006B6D4" BorderThickness="1" VerticalOptions="Center">
-                                    <Label Text="PAYYOBE" FontSize="8.5" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#06B6D4"/>
+                                    <Label Text="PAYYOBE" FontSize="8.5" FontAttributes="Bold" CharacterSpacing="1.5" TextColor="#1A5C35"/>
                                 </yummy:PancakeView>
                             </Grid>
                         </yummy:PancakeView>
 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,20,0,0">
-                            <BoxView x:Name="Step1Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="#CBD5E1"/>
-                            <BoxView x:Name="Step2Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="#CBD5E1"/>
-                            <BoxView x:Name="Step3Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="#CBD5E1"/>
-                            <BoxView x:Name="Step4Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="#CBD5E1"/>
-                            <BoxView x:Name="Step5Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="#CBD5E1"/>
-                            <BoxView x:Name="Step6Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="#CBD5E1"/>
+                            <BoxView x:Name="Step1Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
+                            <BoxView x:Name="Step2Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
+                            <BoxView x:Name="Step3Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
+                            <BoxView x:Name="Step4Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
+                            <BoxView x:Name="Step5Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
+                            <BoxView x:Name="Step6Dot" WidthRequest="22" HeightRequest="6" CornerRadius="3" Color="Orange"/>
                         </StackLayout>
                     </StackLayout>
                 </yummy:PancakeView>
@@ -95,8 +156,15 @@
                 <yummy:PancakeView Margin="14,18,14,0" Padding="22,26" BackgroundColor="White" CornerRadius="28" HasShadow="True" Elevation="10" x:Name="MainFormContainer">
                     <StackLayout Spacing="0">
                         <StackLayout Orientation="Horizontal" Spacing="12" Margin="0,0,0,20">
-                            <yummy:PancakeView CornerRadius="14" WidthRequest="46" HeightRequest="46" BackgroundColor="#0F172A">
-                                <Label Text="📋" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <yummy:PancakeView CornerRadius="14" WidthRequest="46" HeightRequest="46">
+                                <yummy:PancakeView.BackgroundGradientStops>
+                                    <yummy:GradientStopCollection>
+                                        <yummy:GradientStop Color="#003D1F" Offset="0.0"/>
+                                        <yummy:GradientStop Color="#1A7A45" Offset="1.0"/>
+                                    </yummy:GradientStopCollection>
+                                </yummy:PancakeView.BackgroundGradientStops>
+                                <Image Source="gooddone" HeightRequest="30"
+             HorizontalOptions="Center" VerticalOptions="Center"/>
                             </yummy:PancakeView>
                             <StackLayout Spacing="2" VerticalOptions="Center">
                                 <Label Text="Assessment Details" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
@@ -111,7 +179,7 @@
                             <StackLayout Spacing="0">
                                 <Label Text="PAYER FULL NAME *" Style="{StaticResource FieldLabelStyle}"/>
                                 <yummy:PancakeView Style="{StaticResource EntryContainerStyle}" x:Name="FullNameFrame">
-                                    <renderers:BorderlessEntry Placeholder="Enter complete legal name" TextChanged="OnFullNameTextChanged" Unfocused="OnFullNameUnfocused" x:Name="TxtFullName"/>
+                                    <renderers:BorderlessEntry Placeholder="Enter complete legal name" TextChanged="OnFullNameTextChanged" FontSize="14"  Unfocused="OnFullNameUnfocused" x:Name="TxtFullName"/>
                                 </yummy:PancakeView>
                                 <Label x:Name="FullNameError" Style="{StaticResource ErrorLabelStyle}" IsVisible="False"/>
                             </StackLayout>
@@ -119,7 +187,7 @@
                             <StackLayout Spacing="0">
                                 <Label Text="PAYER PHONE NUMBER *" Style="{StaticResource FieldLabelStyle}"/>
                                 <yummy:PancakeView Style="{StaticResource EntryContainerStyle}" x:Name="PhoneFrame">
-                                    <renderers:BorderlessEntry Keyboard="Telephone" MaxLength="13" Placeholder="e.g. 08012345678" TextChanged="OnPhoneTextChanged" Unfocused="OnPhoneUnfocused" x:Name="TxtPhone"/>
+                                    <renderers:BorderlessEntry Keyboard="Telephone" MaxLength="13" Placeholder="e.g. 08012345678" FontSize="14"  TextChanged="OnPhoneTextChanged" Unfocused="OnPhoneUnfocused" x:Name="TxtPhone"/>
                                 </yummy:PancakeView>
                                 <Label x:Name="PhoneError" Style="{StaticResource ErrorLabelStyle}" IsVisible="False"/>
                             </StackLayout>
@@ -127,7 +195,7 @@
                             <StackLayout Spacing="0">
                                 <Label Text="PAYER EMAIL ADDRESS *" Style="{StaticResource FieldLabelStyle}"/>
                                 <yummy:PancakeView Style="{StaticResource EntryContainerStyle}" x:Name="EmailFrame">
-                                    <renderers:BorderlessEntry Keyboard="Email" Placeholder="payer@example.com" TextChanged="OnEmailTextChanged" Unfocused="OnEmailUnfocused" x:Name="TxtEmail"/>
+                                    <renderers:BorderlessEntry Keyboard="Email" Placeholder="payer@example.com" TextChanged="OnEmailTextChanged" FontSize="14"  Unfocused="OnEmailUnfocused" x:Name="TxtEmail"/>
                                 </yummy:PancakeView>
                                 <Label x:Name="EmailError" Style="{StaticResource ErrorLabelStyle}" IsVisible="False"/>
                             </StackLayout>
@@ -151,7 +219,7 @@
                             <StackLayout Spacing="0">
                                 <Label Text="ASSESSMENT AMOUNT (₦) *" Style="{StaticResource FieldLabelStyle}"/>
                                 <yummy:PancakeView Style="{StaticResource EntryContainerStyle}" x:Name="AmountFrame">
-                                    <renderers:BorderlessEntry Keyboard="Numeric" Placeholder="Enter assessment collection amount" TextChanged="OnAmountTextChanged" Unfocused="OnAmountUnfocused" x:Name="TxtAmount"/>
+                                    <renderers:BorderlessEntry Keyboard="Numeric" Placeholder="Enter assessment collection amount" FontSize="14"  TextChanged="OnAmountTextChanged" Unfocused="OnAmountUnfocused" x:Name="TxtAmount"  />
                                 </yummy:PancakeView>
                                 <Label x:Name="AmountError" Style="{StaticResource ErrorLabelStyle}" IsVisible="False"/>
                             </StackLayout>
@@ -164,7 +232,13 @@
                             </StackLayout>
                         </StackLayout>
 
-                        <yummy:PancakeView x:Name="BtnGenerate" CornerRadius="18" HasShadow="True" Elevation="8" HeightRequest="62" Margin="0,18,0,4" IsEnabled="False" Opacity="0.45" BackgroundColor="#0F172A">
+                        <yummy:PancakeView x:Name="BtnGenerate" CornerRadius="18" HasShadow="True" Elevation="8" HeightRequest="62" Margin="0,18,0,4" IsEnabled="False" Opacity="0.45">
+                            <yummy:PancakeView.BackgroundGradientStops>
+                                <yummy:GradientStopCollection>
+                                    <yummy:GradientStop Color="#1A5C35" Offset="0.0"/>
+                                    <yummy:GradientStop Color="#27AE60" Offset="1.0"/>
+                                </yummy:GradientStopCollection>
+                            </yummy:PancakeView.BackgroundGradientStops>
                             <Grid ColumnDefinitions="Auto,*,Auto" Margin="22,0">
                                 <ActivityIndicator Grid.Column="0" x:Name="BtnLoadingIndicator" IsRunning="False" IsVisible="False" Color="White" HeightRequest="24" WidthRequest="24" VerticalOptions="Center"/>
                                 <Label Grid.Column="1" x:Name="BtnLabel" Text="GENERATE SYSTEM INVOICE" FontAttributes="Bold" FontSize="15" TextColor="White" CharacterSpacing="1.2" HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -201,7 +275,7 @@
                     <StackLayout Spacing="12">
                         <yummy:PancakeView BackgroundColor="#0F172A" CornerRadius="12" Padding="16">
                             <StackLayout Spacing="4">
-                                <Label Text="PAYMENT REFERENCE REMITA CODE (RRR)" FontSize="9" FontAttributes="Bold" TextColor="#06B6D4"/>
+                                <Label Text="PAYMENT REFERENCE REMITA CODE (RRR)" FontSize="9" FontAttributes="Bold" TextColor="ForestGreen"/>
                                 <Label x:Name="LblResponseRrr" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,6"/>
                                 <Label Text="TAP SYSTEM NUMBER ENTRY TO COPY" FontSize="8" TextColor="#94A3B8" HorizontalOptions="Center"/>
                             </StackLayout>
@@ -218,7 +292,7 @@
                             <Label Grid.Row="1" Grid.Column="1" x:Name="LblSuccessService" FontAttributes="Bold" TextColor="#0F172A" FontSize="12" LineBreakMode="WordWrap"/>
 
                             <Label Grid.Row="2" Grid.Column="0" Text="Total Amount:" TextColor="#64748B" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="1" x:Name="LblSuccessAmount" FontAttributes="Bold" TextColor="#06B6D4" FontSize="14"/>
+                            <Label Grid.Row="2" Grid.Column="1" x:Name="LblSuccessAmount" FontAttributes="Bold" TextColor="ForestGreen" FontSize="14"/>
 
                             <Label Grid.Row="3" Grid.Column="0" Text="Order System ID:" TextColor="#64748B" FontSize="12"/>
                             <Label Grid.Row="3" Grid.Column="1" x:Name="LblSuccessOrderId" TextColor="#0F172A" FontSize="12"/>
