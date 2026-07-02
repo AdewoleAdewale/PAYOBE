@@ -127,7 +127,7 @@ namespace PAYYOBE.Views.Officer
         //  THERMAL HARDWARE CORE DISPATCH ENGAGEMENTS
         // ─────────────────────────────────────────────────────────────────
 
-       
+
         private async void OnPrintSlipClicked(object sender, EventArgs e)
         {
             // Use the input field text directly since verification is skipped
@@ -136,25 +136,32 @@ namespace PAYYOBE.Views.Officer
 
             try
             {
+                // Extract the amount directly from the UI text label where it was successfully bound,
+                // stripping out currency symbols and comma separators cleanly
+                string cleanAmountText = LblSheetAmount.Text?.Replace("₦", "")?.Replace(",", "")?.Trim();
+                decimal.TryParse(cleanAmountText, out decimal paidAmount);
+
+                // Extract the absolute payer name from the UI label safely
+                string payerName = LblSheetPayer.Text ?? "Officer Walk-in Customer";
+
                 using (UserDialogs.Instance.Loading("Spooling Thermal Invoice Data..."))
                 {
                     var itemCollectionMatrix = new List<ReceiptItem>
-                    {
-                        new ReceiptItem { Description = "REMITA  RRR", Amount = 0m, SubText = _verifiedCachedTransaction.rrr },
-                        new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = LblSheetPayer.Text },
-                        new ReceiptItem { Description = "Agent Name", Amount = 0m, SubText = $"Officer ID #{MainPage.OfficerName}" },
-                        new ReceiptItem { Description = "Amount Settled", Amount = (decimal)_verifiedCachedTransaction.amount }
-                    };
+            {
+                new ReceiptItem { Description = "REMITA RRR", Amount = 0m, SubText = rrrCode },
+                new ReceiptItem { Description = "Payer Name", Amount = 0m, SubText = payerName },
+                new ReceiptItem { Description = "Amount Settled", Amount = paidAmount }
+            };
 
                     var standardReceiptDataContract = new ReceiptData
                     {
-                        StoreName = "YOBE STATE REVENUE SERVICES [YIRS]",
+                        StoreName = "YOBE STATE REVENUE SERVICES YIRS",
                         StorePhone = "Contact: +234 803 052 3208",
-                        ReceiptNumber = _verifiedCachedTransaction.rrr,
+                        ReceiptNumber = rrrCode,
                         AgentName = MainPage.OfficerName,
                         PrintDate = DateTime.Now,
                         Items = itemCollectionMatrix,
-                        AmountPaid = (decimal)_verifiedCachedTransaction.amount,
+                        AmountPaid = paidAmount,
                         FooterLine1 = "This payment confirmation document is legally verified.",
                         FooterLine2 = "POWERED BY OSOFTPAY "
                     };
@@ -173,7 +180,6 @@ namespace PAYYOBE.Views.Officer
                 await DisplayAlert("Printing Error", $"Thermal link reported an operational hardware error sequence: {ex.Message}", "OK");
             }
         }
-
         private void SetPostLoadingState(bool executing)
         {
             Device.BeginInvokeOnMainThread(() =>
